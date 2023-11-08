@@ -1,12 +1,108 @@
-import { useSelector } from "react-redux";
-
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { loadUserDetails } from '../../redux/userDetails';
 const UserDetails = () => {
-    const userData = useSelector((store)=> store.user.userData);
-  return !userData? <h1>Loading..</h1>: (
+  const dispatch = useDispatch();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const userData = useSelector((store) => store.user.userData);
+  useEffect(() => {
+    if (userData) {
+      setName(userData?.name);
+      setEmail(userData?.email);
+    }
+  }, [userData]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios({
+        method: 'patch',
+        url: `/api/v1/users/updateMe`,
+        data: { name, email },
+      });
+      if (response.data.status === 'success') {
+        dispatch(loadUserDetails(response?.data?.data?.user));
+        toast.success('User details updated successfully', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      } else {
+        throw new Error('failer');
+      }
+    } catch (err) {
+      toast.error('Failed to update user data', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    }
+  };
+
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios({
+        method: 'patch',
+        url: '/api/v1/users/updatePassword',
+        data: { currentPassword, password, passwordConfirm },
+      });
+      console.log(response);
+      if (response.data.status === 'success') {
+        dispatch(loadUserDetails(response?.data?.data?.user));
+        toast.success('Password updated successfully', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      } else {
+        throw new Error('failer');
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error(err.response.data.message, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    }
+  };
+  return !userData ? (
+    <h1>Loading user details..</h1>
+  ) : (
     <div className='user-view__content'>
+      <ToastContainer />
       <div className='user-view__form-container'>
         <h2 className='heading-secondary ma-bt-md'>Your account settings</h2>
-        <form className='form form-user-data'>
+        <form onSubmit={handleSubmit} className='form form-user-data'>
           <div className='form__group'>
             <label className='form__label' htmlFor='name'>
               Name
@@ -15,7 +111,8 @@ const UserDetails = () => {
               className='form__input'
               id='name'
               type='text'
-              value={userData.name}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required='required'
             />
           </div>
@@ -27,14 +124,19 @@ const UserDetails = () => {
               className='form__input'
               id='email'
               type='email'
-              value={userData.email}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required='required'
             />
           </div>
           <div className='form__group form__photo-upload'>
             <img
               className='form__user-photo'
-              src={userData?.photo? `../../../src/assets/users/${userData?.photo}`: 'https://icon-library.com/images/icon-user/icon-user-15.jpg'}
+              src={
+                userData?.photo
+                  ? `../../../src/assets/users/${userData?.photo}`
+                  : 'https://icon-library.com/images/icon-user/icon-user-15.jpg'
+              }
               alt='User photo'
             />
             <a className='btn-text' href=''>
@@ -49,7 +151,10 @@ const UserDetails = () => {
       <div className='line'>&nbsp;</div>
       <div className='user-view__form-container'>
         <h2 className='heading-secondary ma-bt-md'>Password change</h2>
-        <form className='form form-user-settings'>
+        <form
+          onSubmit={handlePasswordChange}
+          className='form form-user-settings'
+        >
           <div className='form__group'>
             <label className='form__label' htmlFor='password-current'>
               Current password
@@ -60,6 +165,8 @@ const UserDetails = () => {
               type='password'
               placeholder='••••••••'
               required='required'
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
               minLength='8'
             />
           </div>
@@ -74,6 +181,8 @@ const UserDetails = () => {
               placeholder='••••••••'
               required='required'
               minLength='8'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className='form__group ma-bt-lg'>
@@ -87,6 +196,8 @@ const UserDetails = () => {
               placeholder='••••••••'
               required='required'
               minLength='8'
+              value={passwordConfirm}
+              onChange={(e) => setPasswordConfirm(e.target.value)}
             />
           </div>
           <div className='form__group right'>

@@ -70,7 +70,13 @@ const router = createBrowserRouter([
       },
       {
         path: '/me',
-        element: <UserDashBoard />,
+        element: <ProtectedRoute />,
+        children:[
+          {
+            path: '/me/',
+            element: <UserDashBoard />
+          }
+        ]
       },
     ],
   },

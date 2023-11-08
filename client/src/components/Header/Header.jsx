@@ -14,6 +14,7 @@ const Header = () => {
   const navigate = useNavigate();
   const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
   const userData = useSelector((store) => store.user.userData);
+  console.log('isAuth in header ' + isAuthenticated);
   const handleLogOut = async () => {
     try {
       const response = await axios.get('/api/v1/users/logout');
@@ -67,7 +68,11 @@ const Header = () => {
             <Link className='nav__el' to='/me'>
               <img
                 className='nav__user-img'
-                src={userData?.photo? `../../../src/assets/users/${userData?.photo}`: 'https://icon-library.com/images/icon-user/icon-user-15.jpg'}
+                src={
+                  userData?.photo
+                    ? `../../../src/assets/users/${userData?.photo}`
+                    : 'https://icon-library.com/images/icon-user/icon-user-15.jpg'
+                }
                 alt='Photo of user'
               />
               <span>{userData?.name.split(' ')[0]}</span>
@@ -75,10 +80,10 @@ const Header = () => {
           </>
         ) : (
           <>
-            <Link to='/login' className='nav__el' href='/login'>
+            <Link to='/login' className='nav__el'>
               Log in
             </Link>
-            <Link to='/signup' className='nav__el nav__el--cta' href='#'>
+            <Link to='/signup' className='nav__el nav__el--cta' >
               Sign up{' '}
             </Link>
           </>
