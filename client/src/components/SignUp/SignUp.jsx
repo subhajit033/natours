@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { authentication } from '../../redux/authSlice';
 import { loadUserDetails } from '../../redux/userDetails';
 import { ToastContainer, toast } from 'react-toastify';
@@ -7,6 +8,7 @@ import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 const SignUp = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,6 +24,7 @@ const SignUp = () => {
       if (response?.data?.status === 'success') {
         dispatch(authentication(true));
         loadUserDetails(response?.data?.data?.user);
+        navigate('/');
         toast.success(`${name.split(' ')[0]} welcome to Natours`, {
           position: 'top-right',
           autoClose: 5000,

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { authentication } from '../../redux/authSlice';
 import { loadUserDetails } from '../../redux/userDetails';
@@ -22,7 +23,7 @@ const Login = () => {
       });
       dispatch(authentication(true));
       dispatch(loadUserDetails(response?.data?.data?.user));
-      navigate('/')
+      navigate('/');
       console.log(response);
       toast('Login Sucessfull', {
         position: 'top-right',
@@ -87,6 +88,7 @@ const Login = () => {
           </div>
           <div className='form__group'>
             <button className='btn btn--green'>Login</button>
+            <Link style={{fontSize: '1.3rem', marginLeft: '2rem'}} to='/signup'>New to Natours ? create a new account</Link>
           </div>
         </form>
       </div>

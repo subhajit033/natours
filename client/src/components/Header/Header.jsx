@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { logoWhite } from '../../assets/image';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { authentication } from '../../redux/authSlice';
 import { loadUserDetails } from '../../redux/userDetails';
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,12 +11,14 @@ import axios from 'axios';
 
 const Header = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
   const userData = useSelector((store) => store.user.userData);
   const handleLogOut = async () => {
     try {
       const response = await axios.get('/api/v1/users/logout');
       if (response?.data?.status === 'success') {
+        navigate('/');
         dispatch(authentication(false));
         dispatch(loadUserDetails(null));
         toast('Logout Sucessfully !', {
@@ -61,7 +64,7 @@ const Header = () => {
             <button onClick={handleLogOut} className='nav__el nav__el--logout'>
               Log out
             </button>
-            <Link className='nav__el' href='/me'>
+            <Link className='nav__el' to='/me'>
               <img
                 className='nav__user-img'
                 src={userData?.photo? `../../../src/assets/users/${userData?.photo}`: 'https://icon-library.com/images/icon-user/icon-user-15.jpg'}
