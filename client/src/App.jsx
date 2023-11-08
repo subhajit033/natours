@@ -1,4 +1,5 @@
 import Login from './components/Login/Login';
+import SignUp from './components/SignUp/SignUp';
 import { useEffect } from 'react';
 import OverView from './components/Overview/OverView';
 import TourDetails from './components/TourDetails/TourDetails';
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />,
+      },
+      {
+        path: '/signup',
+        element: <SignUp />,
       },
     ],
   },

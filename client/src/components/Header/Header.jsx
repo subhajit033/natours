@@ -17,7 +17,7 @@ const Header = () => {
       const response = await axios.get('/api/v1/users/logout');
       if (response?.data?.status === 'success') {
         dispatch(authentication(false));
-        dispatch(loadUserDetails(null))
+        dispatch(loadUserDetails(null));
         toast('Logout Sucessfully !', {
           position: 'top-right',
           autoClose: 5000,
@@ -48,9 +48,9 @@ const Header = () => {
     <header className='header'>
       <ToastContainer />
       <nav className='nav nav--tours'>
-        <a className='nav__el' href='/'>
+        <Link className='nav__el' href='/'>
           All tours
-        </a>
+        </Link>
       </nav>
       <div className='header__logo'>
         <img src={logoWhite} alt='Natours logo' />
@@ -58,12 +58,14 @@ const Header = () => {
       <nav className='nav nav--user'>
         {isAuthenticated ? (
           <>
-            <button onClick={handleLogOut} className='nav__el nav__el--logout'>Log out</button>
+            <button onClick={handleLogOut} className='nav__el nav__el--logout'>
+              Log out
+            </button>
             <Link className='nav__el' href='/me'>
               <img
                 className='nav__user-img'
-                src={`../../../src/assets/users/${userData?.photo}`}
-                alt='Photo of'
+                src={userData?.photo? `../../../src/assets/users/${userData?.photo}`: 'https://icon-library.com/images/icon-user/icon-user-15.jpg'}
+                alt='Photo of user'
               />
               <span>{userData?.name.split(' ')[0]}</span>
             </Link>
@@ -73,7 +75,7 @@ const Header = () => {
             <Link to='/login' className='nav__el' href='/login'>
               Log in
             </Link>
-            <Link className='nav__el nav__el--cta' href='#'>
+            <Link to='/signup' className='nav__el nav__el--cta' href='#'>
               Sign up{' '}
             </Link>
           </>
