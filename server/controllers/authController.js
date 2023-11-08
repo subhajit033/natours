@@ -256,18 +256,14 @@ const updatePassword = async (req, res, next) => {
    */
   //update password is a protected routes , so it has to pass the protexct middleware -> req.user
   try {
-    const { passwordCurrent } = req.body;
-    const user = await User.findById(req.user._id).select('+password');
-    if (!bcrypt.compare(passwordCurrent, user.password))
+    const { currentPassword } = req.body;
+    const user = await User.findById(req.user.id).select('+password');
+    if (!(await bcrypt.compare(currentPassword, user.password)))
       return next(new APPError('Please enter the correct password', 401));
     user.password = req.body.password;
-    user.passwordconfirm = req.body.passwordconfirm;
+    user.passwordconfirm = req.body.passwordConfirm;
     await user.save();
-    const token = signToken(user._id);
-    res.status(200).json({
-      status: 'success',
-      token,
-    });
+    createAndSendToken(user, 200, res);
   } catch (err) {
     next(new APPError(err.message, 403));
   }
@@ -326,5 +322,5 @@ module.exports = {
   resetPassword,
   updatePassword,
   isLoggedIn,
-  logOut
+  logOut,
 };
