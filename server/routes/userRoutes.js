@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const {
   getAllUsers,
@@ -9,6 +10,7 @@ const {
   updateMe,
   deleteMe,
   getMe,
+  uploadUsersPhoto,
 } = require('../controllers/userController');
 const {
   signup,
@@ -19,16 +21,18 @@ const {
   updatePassword,
   restrictTo,
   isLoggedIn,
-  logOut
+  logOut,
 } = require('../controllers/authController');
+
+
 
 router.post('/signup', signup);
 router.post('/login', login);
-router.get('/logout', logOut)
+router.get('/logout', logOut);
 router.post('/forgotPassword', forgotPassword);
 router.patch('/resetPassword/:token', resetPassword);
 
-router.get('/rememberMe', isLoggedIn)
+router.get('/rememberMe', isLoggedIn);
 
 //position of middleware matters
 router.use(protect);
@@ -36,7 +40,7 @@ router.use(protect);
 
 router.patch('/updatePassword', updatePassword);
 router.get('/me', getMe, getSpecificUser);
-router.patch('/updateMe', updateMe);
+router.patch('/updateMe', uploadUsersPhoto,  updateMe);
 router.delete('/deleteMe', deleteMe);
 
 //rest format routes

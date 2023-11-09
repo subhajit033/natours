@@ -24,7 +24,10 @@ if (process.env.NODE_ENV === 'development') {
 
 //set securtity http header
 app.use(helmet());
-
+app.use((req,res, next)=>{
+  console.log(`${__dirname}/../client`);
+  next();
+})
 const limiter = rateLimit({
   max: 100,
   windowMS: 60 * 60 * 1000,
