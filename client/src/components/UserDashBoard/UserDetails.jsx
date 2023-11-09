@@ -9,6 +9,7 @@ const UserDetails = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [file, setFile] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -22,11 +23,16 @@ const UserDetails = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    //we have to do this to handle the file
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('photo', file);
     try {
       const response = await axios({
         method: 'patch',
         url: `/api/v1/users/updateMe`,
-        data: { name, email },
+        data: formData,
       });
       if (response.data.status === 'success') {
         dispatch(loadUserDetails(response?.data?.data?.user));
@@ -59,6 +65,7 @@ const UserDetails = () => {
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
+    //here in case of password change we are generating new token , so don't need the logout the user and login again
     try {
       const response = await axios({
         method: 'patch',
@@ -68,6 +75,9 @@ const UserDetails = () => {
       console.log(response);
       if (response.data.status === 'success') {
         dispatch(loadUserDetails(response?.data?.data?.user));
+        setCurrentPassword('');
+        setPassword('');
+        setPasswordConfirm('');
         toast.success('Password updated successfully', {
           position: 'top-right',
           autoClose: 5000,
@@ -95,6 +105,7 @@ const UserDetails = () => {
       });
     }
   };
+  console.log(file);
   return !userData ? (
     <h1>Loading user details..</h1>
   ) : (
@@ -139,9 +150,15 @@ const UserDetails = () => {
               }
               alt='User photo'
             />
-            <a className='btn-text' href=''>
-              Choose new photo
-            </a>
+            <input
+              className='form__upload'
+              type='file'
+              accept='image/'
+              name='image'
+              id='photo'
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+            <label htmlFor='photo'>Choose new photo</label>
           </div>
           <div className='form__group right'>
             <button className='btn btn--small btn--green'>Save settings</button>
