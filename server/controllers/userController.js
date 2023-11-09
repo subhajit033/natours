@@ -1,5 +1,6 @@
 const APPError = require('../utils/appError');
 const multer = require('multer');
+const sharp = require('sharp');
 const User = require('../models/userModel');
 const {
   deleteOne,
@@ -9,16 +10,20 @@ const {
   getAll,
 } = require('./handlerFactory');
 
-const multerStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, `../../natours/client/src/assets/users`);
-  },
-  filename: (req, file, cb) => {
-    //file = req.file
-    const ext = file.mimetype.split('/')[1];
-    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-  },
-});
+// const multerStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, `../../natours/client/src/assets/users`);
+//   },
+//   filename: (req, file, cb) => {
+//     //file = req.file
+//     const ext = file.mimetype.split('/')[1];
+//     cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+//   },
+// });
+
+//here we are using memoryStorage because after this we have to resize the image, so its a good practice to first store in memory
+//and then in disk
+const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image')) {
@@ -29,11 +34,22 @@ const multerFilter = (req, file, cb) => {
 };
 
 const upload = multer({
-  dest: `../../client/src/assets/users`,
+  dest: `../../natours/client/src/assets/users`,
   storage: multerStorage,
   fileFilter: multerFilter,
 });
-const uploadUsersPhoto = upload.single('photo')
+const uploadUsersPhoto = upload.single('photo');
+
+const resizeUserPhoto = (req, res, next) => {
+  if (!req.file) return next();
+  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+  sharp(req.file.buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`../../natours/client/src/assets/users/${req.file.filename}`);
+  next();
+};
 
 const getAllUsers = getAll(User);
 
@@ -60,8 +76,9 @@ const updateMe = async (req, res, next) => {
    */
   console.log(req.file);
   console.log(req.body);
+  req.body.photo = req.file.filename;
   try {
-    const filteredBody = filterObj(req.body, 'name', 'email');
+    const filteredBody = filterObj(req.body, 'name', 'email', 'photo');
     if (req.body.password || req.body.passwordconfirm)
       return next(new APPError('The route is not for updates password', 400));
 
@@ -108,4 +125,5 @@ module.exports = {
   deleteMe,
   getMe,
   uploadUsersPhoto,
+  resizeUserPhoto,
 };
