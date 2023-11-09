@@ -11,6 +11,7 @@ const {
   deleteMe,
   getMe,
   uploadUsersPhoto,
+  resizeUserPhoto
 } = require('../controllers/userController');
 const {
   signup,
@@ -40,7 +41,7 @@ router.use(protect);
 
 router.patch('/updatePassword', updatePassword);
 router.get('/me', getMe, getSpecificUser);
-router.patch('/updateMe', uploadUsersPhoto,  updateMe);
+router.patch('/updateMe', uploadUsersPhoto, resizeUserPhoto,  updateMe);
 router.delete('/deleteMe', deleteMe);
 
 //rest format routes
