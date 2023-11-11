@@ -4,7 +4,7 @@ const htmlToText = require('html-to-text');
 class sendEmail {
   constructor(user, url) {
     this.to = user.email;
-    this.firstName = user.name.split('')[0];
+    this.firstName = user.name.split(' ')[0];
     this.url = url;
     this.from = 'Subhajit Kundu <kundusubhajit73@gmail.com>';
   }
@@ -24,13 +24,19 @@ class sendEmail {
 
   async send(template, subject) {
     //this is actual email
-    const html = fs.readFileSync(`${__dirname}/../views/${template}.html`, 'utf-8');
+    let html = fs.readFileSync(
+      `${__dirname}/../views/${template}.html`,
+      'utf-8'
+    );
+    if (template === 'welcome') {
+      html = html.replace('**name**', this.firstName);
+      html = html.replace('**destination**', this.url);
+    }
     const mailOptions = {
       from: this.from,
       to: this.to,
       subject,
       html,
-      
     };
     await this.newTransport().sendMail(mailOptions);
   }

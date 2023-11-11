@@ -52,8 +52,9 @@ const signup = async (req, res, next) => {
       passwordconfirm: req.body.passwordconfirm,
       passwordChangedAt: req.body.passwordChangedAt,
     }*/
+    const url = `${req.protocol}://${req.get('host')}/me`;
 
-    await new sendEmail(newUser, '/abc').sendWelcome(
+    await new sendEmail(newUser, url).sendWelcome(
       'welcome',
       'Welcome To Natours'
     );
