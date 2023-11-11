@@ -35,7 +35,7 @@ const TourDetails = () => {
       <MapBox {...tourData} />
       <TourPictures {...tourData} />
       <TourReviews {...tourData} />
-      <TourBuy {...tourData} />
+      <TourBuy {...tourData} tourSlug={tourName} />
     </>
   );
 };
