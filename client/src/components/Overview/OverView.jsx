@@ -2,16 +2,24 @@ import { useState, useEffect } from 'react';
 import TourCard from './TourCard';
 import axios from 'axios';
 import Loader from '../Loader/Loader';
-const OverView = () => {
-  const [tour, setTour] = useState([]);
+import { useDispatch, useSelector } from 'react-redux';
+import { addTours } from '../../redux/tourData';
 
+const OverView = () => {
+  const dispatch = useDispatch();
+  const [tour, setTour] = useState([]);
+  const tours = useSelector((store) => store.tour.tours);
   useEffect(() => {
-    getTourData();
+    !tours && getTourData();
+    if (tours) {
+      setTour(tours);
+    }
   }, []);
   const getTourData = async () => {
     try {
       const data = await axios.get('/api/v1/tours');
       setTour(data?.data?.data?.data);
+      dispatch(addTours(data?.data?.data?.data));
     } catch (err) {
       console.log(err);
     }

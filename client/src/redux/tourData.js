@@ -1,16 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const tourData = createSlice({
-  name: 'tourData',
+  name: 'tour',
   initialState: {
-    data: '',
+    tours: null,
   },
   reducers: {
-    addTourData: (state, action) => {
-      state.data = action.payload;
+    addTours: (state, action) => {
+      state.tours = action.payload;
     },
   },
 });
 
-export const {addTourData} = tourData.actions;
+export const {addTours} = tourData.actions;
 export default tourData.reducer

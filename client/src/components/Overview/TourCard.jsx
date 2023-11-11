@@ -3,7 +3,7 @@
 import { iconsSvg } from '../../assets/image';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import {addTourData} from '../../redux/tourData'
+
 const TourCard = ({
   name,
   summary,
@@ -85,7 +85,7 @@ const TourCard = ({
           {' '}
           <span className='card__footer-text'>{`rating (${ratingsQuantity})`}</span>
         </p>
-        <button onClick={()=> {navigate(`/${slug}`); dispatch(addTourData(_id))}} className='btn btn--green btn--small'> Details</button>
+        <button onClick={()=> {navigate(`/${slug}`)}} className='btn btn--green btn--small'> Details</button>
       </div>
     </div>
   );

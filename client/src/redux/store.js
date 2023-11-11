@@ -6,7 +6,7 @@ const store = configureStore({
   reducer: {
     auth: authSlice,
     user: userDetails,
-    tourData: tourData,
+    tour: tourData,
   },
 });
 

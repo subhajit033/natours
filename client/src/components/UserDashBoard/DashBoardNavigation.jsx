@@ -1,6 +1,7 @@
 import { iconsSvg } from '../../assets/image';
-
+import { useSelector } from 'react-redux';
 const DashBoardNavigation = () => {
+  const user = useSelector((store) => store.user.userData);
   return (
     <nav className='user-view__menu'>
       <ul className='side-nav'>
@@ -37,43 +38,45 @@ const DashBoardNavigation = () => {
           </a>
         </li>
       </ul>
-      <div className='admin-nav'>
-        <h5 className='admin-nav__heading'>Admin</h5>
-        <ul className='side-nav'>
-          <li>
-            <a href='#'>
-              <svg>
-                <use xlinkHref={`${iconsSvg}#icon-map`} />
-              </svg>
-              Manage tours
-            </a>
-          </li>
-          <li>
-            <a href='#'>
-              <svg>
-                <use xlinkHref={`${iconsSvg}#icon-users`} />
-              </svg>
-              Manage users
-            </a>
-          </li>
-          <li>
-            <a href='#'>
-              <svg>
-                <use xlinkHref={`${iconsSvg}#icon-star`} />
-              </svg>
-              Manage reviews
-            </a>
-          </li>
-          <li>
-            <a href='#'>
-              <svg>
-                <use xlinkHref={`${iconsSvg}#icon-briefcase`} />
-              </svg>
-              Manage Booking
-            </a>
-          </li>
-        </ul>
-      </div>
+      {user.role === 'admin' && (
+        <div className='admin-nav'>
+          <h5 className='admin-nav__heading'>Admin</h5>
+          <ul className='side-nav'>
+            <li>
+              <a href='#'>
+                <svg>
+                  <use xlinkHref={`${iconsSvg}#icon-map`} />
+                </svg>
+                Manage tours
+              </a>
+            </li>
+            <li>
+              <a href='#'>
+                <svg>
+                  <use xlinkHref={`${iconsSvg}#icon-users`} />
+                </svg>
+                Manage users
+              </a>
+            </li>
+            <li>
+              <a href='#'>
+                <svg>
+                  <use xlinkHref={`${iconsSvg}#icon-star`} />
+                </svg>
+                Manage reviews
+              </a>
+            </li>
+            <li>
+              <a href='#'>
+                <svg>
+                  <use xlinkHref={`${iconsSvg}#icon-briefcase`} />
+                </svg>
+                Manage Booking
+              </a>
+            </li>
+          </ul>
+        </div>
+      )}
     </nav>
   );
 };
