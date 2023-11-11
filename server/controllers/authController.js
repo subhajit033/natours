@@ -3,8 +3,9 @@ const User = require('../models/userModel');
 const APPError = require('../utils/appError');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const sendEmail = require('../utils/email');
+
 const crypto = require('crypto');
+const sendEmail = require('../utils/email');
 
 const signToken = (userId) => {
   //secret-key can be anything like - my-name-is-subhajit(min 32 char)
@@ -52,6 +53,10 @@ const signup = async (req, res, next) => {
       passwordChangedAt: req.body.passwordChangedAt,
     }*/
 
+    await new sendEmail(newUser, '/abc').sendWelcome(
+      'welcome',
+      'Welcome To Natours'
+    );
     createAndSendToken(newUser, 201, res);
   } catch (err) {
     next(new APPError(err.message, 400));

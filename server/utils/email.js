@@ -24,18 +24,18 @@ class sendEmail {
 
   async send(template, subject) {
     //this is actual email
-    const html = fs.readFileSync(`../views/${template}.html`, 'utf-8');
+    const html = fs.readFileSync(`${__dirname}/../views/${template}.html`, 'utf-8');
     const mailOptions = {
       from: this.from,
       to: this.to,
       subject,
       html,
-      text: htmlToText.fromString(html),
+      
     };
-    await this.newTransport.sendEmail(mailOptions);
+    await this.newTransport().sendMail(mailOptions);
   }
-  async sendWelcome() {
-    await this.send('welcome', 'Welcome To Natours');
+  async sendWelcome(template, subject) {
+    await this.send(template, subject);
   }
 }
 
