@@ -12,7 +12,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 
-const bookingRouter = require('./routes/bookingRoutes')
+const bookingRouter = require('./routes/bookingRoutes');
 const APPError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorControllers');
 const app = express();
@@ -25,10 +25,10 @@ if (process.env.NODE_ENV === 'development') {
 
 //set securtity http header
 app.use(helmet());
-app.use((req,res, next)=>{
+app.use((req, res, next) => {
   console.log(`${__dirname}/../client`);
   next();
-})
+});
 const limiter = rateLimit({
   max: 100,
   windowMS: 60 * 60 * 1000,
@@ -82,10 +82,11 @@ app.use(
 app.use(express.static(`./public`));
 //router middleware
 
+
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
-app.use('/api/v1/bookings', bookingRouter)
+app.use('/api/v1/bookings', bookingRouter);
 
 //console.log(x);
 app.all('*', (req, res, next) => {
