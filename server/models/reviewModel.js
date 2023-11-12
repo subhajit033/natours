@@ -38,7 +38,7 @@ const reviewSchema = new Schema(
 
 reviewSchema.statics.calcAverageRatings = async function (tourId) {
   //this refers to current model
-  
+
   const stats = await this.aggregate([
     {
       $match: { tour: tourId },
@@ -65,6 +65,7 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
   }
 };
 
+//preventing duplicate review
 reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
 
 reviewSchema.post('save', function () {

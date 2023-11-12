@@ -1,6 +1,8 @@
 const Tour = require('../models/tourModel');
 const APPError = require('../utils/appError');
 const stripe = require('stripe')(process.env.STRIPE_SEC_KEY);
+const { createOne } = require('../controllers/handlerFactory');
+const Booking = require('../models/bookingModel');
 const getCheckOutSession = async (req, res, next) => {
   /**
    * 1) get currently booked tour
@@ -25,8 +27,8 @@ const getCheckOutSession = async (req, res, next) => {
         // },
         {
           price_data: {
-            currency: 'usd',
-            unit_amount: tour.price*100,
+            currency: 'INR',
+            unit_amount: tour.price * 100,
             product_data: {
               name: `${tour.name} Tour`,
               description: tour.summary,
@@ -40,8 +42,10 @@ const getCheckOutSession = async (req, res, next) => {
       ],
       mode: 'payment',
       payment_method_types: ['card'],
-      success_url: 'http://localhost:5173',
+      //not a secure way, in deployed websoute we can integrate stripe webkooks for payment success
+      success_url: `http://localhost:5173?tour=${tour._id}?user=${req.user.id}?price=${tour.price}`,
       cancel_url: `http://localhost:5173/${req.params.tourSlug}`,
+      //customer_name: req.user.name,
       customer_email: req.user.email,
       client_reference_id: req.user.id,
     });
@@ -54,4 +58,17 @@ const getCheckOutSession = async (req, res, next) => {
   }
 };
 
-module.exports = { getCheckOutSession };
+const setTourUser = (req, res ,next)=>{
+  const { tour, user, price } = req.query;
+  if (!tour || !user || !price) {
+    return next();
+  }
+  req.body.tour = tour;
+  req.body.user = user;
+  req.body.price = price;
+  next();
+}
+const createBookingCheckout = createOne(Booking);
+
+
+module.exports = { getCheckOutSession, setTourUser, createBookingCheckout };
