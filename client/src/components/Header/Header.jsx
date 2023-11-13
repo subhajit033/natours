@@ -70,7 +70,9 @@ const Header = () => {
                 className='nav__user-img'
                 src={
                   userData?.photo
-                    ? `../../../src/assets/users/${userData?.photo}`
+                    ? userData?.photo.startsWith('http')
+                      ? userData?.photo
+                      : `../../../src/assets/users/${userData?.photo}`
                     : 'https://icon-library.com/images/icon-user/icon-user-15.jpg'
                 }
                 alt='Photo of user'
@@ -83,7 +85,7 @@ const Header = () => {
             <Link to='/login' className='nav__el'>
               Log in
             </Link>
-            <Link to='/signup' className='nav__el nav__el--cta' >
+            <Link to='/signup' className='nav__el nav__el--cta'>
               Sign up{' '}
             </Link>
           </>

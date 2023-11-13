@@ -32,8 +32,8 @@ const TourDetails = () => {
     <>
       <TourName {...tourData} />
       <TourDescription {...tourData} />
-      <MapBox {...tourData} />
       <TourPictures {...tourData} />
+      <MapBox {...tourData} />
       <TourReviews {...tourData} />
       <TourBuy {...tourData} tourSlug={tourName} />
     </>

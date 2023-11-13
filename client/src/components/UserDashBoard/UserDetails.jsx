@@ -145,7 +145,9 @@ const UserDetails = () => {
               className='form__user-photo'
               src={
                 userData?.photo
-                  ? `../../../src/assets/users/${userData?.photo}`
+                  ? userData?.photo.startsWith('http')
+                    ? userData?.photo
+                    : `../../../src/assets/users/${userData?.photo}`
                   : 'https://icon-library.com/images/icon-user/icon-user-15.jpg'
               }
               alt='User photo'

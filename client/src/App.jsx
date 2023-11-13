@@ -71,12 +71,12 @@ const router = createBrowserRouter([
       {
         path: '/me',
         element: <ProtectedRoute />,
-        children:[
+        children: [
           {
             path: '/me/',
-            element: <UserDashBoard />
-          }
-        ]
+            element: <UserDashBoard />,
+          },
+        ],
       },
     ],
   },
