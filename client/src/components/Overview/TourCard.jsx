@@ -76,7 +76,7 @@ const TourCard = ({
 
       <div className='card__footer'>
         <p>
-          <span className='card__footer-value'>{price}</span>
+          <span className='card__footer-value'>₹ {price}</span>
           {' '}
           <span className='card__footer-text'>per person</span>
         </p>

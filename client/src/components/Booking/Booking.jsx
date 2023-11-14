@@ -24,7 +24,7 @@ const Booking = () => {
   return (
     <section style={{flex: 1}}>
       <h1 style={{ textAlign: 'center', marginTop: '1rem' }}>My Booking</h1>
-      {!bookedTour ? (
+      {!bookedTour || bookedTour.length ===0 ? (
         <h1>No tour booked yet</h1>
       ) : (
         <div className='booking-card-container'>

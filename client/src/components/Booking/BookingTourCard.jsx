@@ -8,7 +8,7 @@ const BookingTourCard = ({ name, imageCover, price }) => {
       />
       <span className='booking-card__footer'>
         <span>{name}</span>
-        <span>{price}</span>
+        <span>₹ {price}</span>
       </span>
     </div>
   );
