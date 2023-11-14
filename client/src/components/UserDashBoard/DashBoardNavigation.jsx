@@ -1,4 +1,5 @@
 import { iconsSvg } from '../../assets/image';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 const DashBoardNavigation = () => {
   const user = useSelector((store) => store.user.userData);
@@ -6,20 +7,20 @@ const DashBoardNavigation = () => {
     <nav className='user-view__menu'>
       <ul className='side-nav'>
         <li className='side-nav--active'>
-          <a href='#'>
+          <Link to='/me'>
             <svg>
               <use xlinkHref={`${iconsSvg}#icon-setting`} />
             </svg>
             Settings
-          </a>
+          </Link>
         </li>
         <li>
-          <a href='#'>
+          <Link to='/me/my-tours'>
             <svg>
               <use xlinkHref={`${iconsSvg}#icon-briefcase`} />
             </svg>
             My bookings
-          </a>
+          </Link>
         </li>
         <li>
           <a href='#'>

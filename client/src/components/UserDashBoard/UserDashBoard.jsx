@@ -1,12 +1,12 @@
 import DashBoardNavigation from './DashBoardNavigation';
-import UserDetails from './UserDetails';
-
+// import UserDetails from './UserDetails';
+import { Outlet } from 'react-router-dom';
 const UserDashBoard = () => {
   return (
     <main className='main'>
       <div className='user-view'>
         <DashBoardNavigation />
-        <UserDetails />
+        <Outlet />
       </div>
     </main>
   );

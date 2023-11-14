@@ -3,7 +3,9 @@ import SignUp from './components/SignUp/SignUp';
 import { useEffect } from 'react';
 import OverView from './components/Overview/OverView';
 import TourDetails from './components/TourDetails/TourDetails';
+import UserDetails from './components/UserDashBoard/UserDetails';
 import UserDashBoard from './components/UserDashBoard/UserDashBoard';
+import Booking from './components/Booking/Booking';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './Layout/Layout';
@@ -73,8 +75,18 @@ const router = createBrowserRouter([
         element: <ProtectedRoute />,
         children: [
           {
-            path: '/me/',
+            path: '',
             element: <UserDashBoard />,
+            children: [
+              {
+                path: '',
+                element: <UserDetails />,
+              },
+              {
+                path: 'my-tours',
+                element: <Booking />,
+              },
+            ],
           },
         ],
       },

@@ -9,10 +9,11 @@ const UserDetails = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState(null);
   const [currentPassword, setCurrentPassword] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.user.userData);
   useEffect(() => {
     if (userData) {
@@ -22,12 +23,15 @@ const UserDetails = () => {
   }, [userData]);
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     //we have to do this to handle the file
     const formData = new FormData();
     formData.append('name', name);
     formData.append('email', email);
-    formData.append('photo', file);
+    if (file) {
+      formData.append('photo', file);
+    }
     try {
       const response = await axios({
         method: 'patch',
@@ -46,10 +50,12 @@ const UserDetails = () => {
           progress: undefined,
           theme: 'light',
         });
+        setLoading(false);
       } else {
         throw new Error('failer');
       }
     } catch (err) {
+      setLoading(false);
       toast.error('Failed to update user data', {
         position: 'top-right',
         autoClose: 5000,
@@ -64,6 +70,7 @@ const UserDetails = () => {
   };
 
   const handlePasswordChange = async (e) => {
+    setLoading(true);
     e.preventDefault();
     //here in case of password change we are generating new token , so don't need the logout the user and login again
     try {
@@ -74,6 +81,7 @@ const UserDetails = () => {
       });
       console.log(response);
       if (response.data.status === 'success') {
+        setLoading(false);
         dispatch(loadUserDetails(response?.data?.data?.user));
         setCurrentPassword('');
         setPassword('');
@@ -92,6 +100,7 @@ const UserDetails = () => {
         throw new Error('failer');
       }
     } catch (err) {
+      setLoading(false);
       console.log(err);
       toast.error(err.response.data.message, {
         position: 'top-right',
@@ -163,7 +172,9 @@ const UserDetails = () => {
             <label htmlFor='photo'>Choose new photo</label>
           </div>
           <div className='form__group right'>
-            <button className='btn btn--small btn--green'>Save settings</button>
+            <button className='btn btn--small btn--green'>
+              {loading ? 'Updating..' : 'Save settings'}
+            </button>
           </div>
         </form>
       </div>
@@ -220,7 +231,9 @@ const UserDetails = () => {
             />
           </div>
           <div className='form__group right'>
-            <button className='btn btn--small btn--green'>Save password</button>
+            <button className='btn btn--small btn--green'>
+              {loading ? 'Updating Password..' : 'Save password'}
+            </button>
           </div>
         </form>
       </div>
