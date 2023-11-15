@@ -23,10 +23,7 @@ const Footer = () => {
           <a href='#'>Contact</a>
         </li>
       </ul>
-      <p className='footer__copyright'>
-        &copy; by Jonas Schmedtmann. Feel free to use this project for your own
-        purposes, EXCEPT producing your own course or tutorials!
-      </p>
+      <p className='footer__copyright'>&copy; Natours 2023</p>
     </footer>
   );
 };

@@ -79,7 +79,7 @@ const UserDetails = () => {
         url: '/api/v1/users/updatePassword',
         data: { currentPassword, password, passwordConfirm },
       });
-      console.log(response);
+
       if (response.data.status === 'success') {
         setLoading(false);
         dispatch(loadUserDetails(response?.data?.data?.user));
@@ -101,7 +101,7 @@ const UserDetails = () => {
       }
     } catch (err) {
       setLoading(false);
-      console.log(err);
+
       toast.error(err.response.data.message, {
         position: 'top-right',
         autoClose: 5000,
@@ -114,7 +114,7 @@ const UserDetails = () => {
       });
     }
   };
-  console.log(file);
+
   return !userData ? (
     <h1>Loading user details..</h1>
   ) : (
