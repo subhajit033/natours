@@ -5,7 +5,7 @@ const ReviewCard = ({ user, review, rating }) => {
     <div className='reviews__card'>
       <div className='reviews__avatar'>
         <img
-          src={`../../../src/assets/users/${user?.photo}`}
+          src={user?.photo}
           alt='Jim Brown'
           className='reviews__avatar-img'
         />

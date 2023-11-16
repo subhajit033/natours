@@ -2,7 +2,7 @@ const BookingTourCard = ({ name, imageCover, price }) => {
   return (
     <div className='booking-card'>
       <img
-        src={`../../../src/assets/tours/${imageCover}`}
+        src={imageCover}
         alt='booked tour image'
         className='booking-card__img'
       />

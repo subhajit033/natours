@@ -77,7 +77,7 @@ const UserDetails = () => {
     try {
       const response = await axios({
         method: 'patch',
-        url: api_url+'/api/v1/users/updatePassword',
+        url: api_url + '/api/v1/users/updatePassword',
         data: { currentPassword, password, passwordConfirm },
       });
 

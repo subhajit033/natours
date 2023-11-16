@@ -4,7 +4,7 @@ const TourGuides = ({role, name, photo}) => {
   return (
     <div className='overview-box__detail'>
       <img
-        src={`../../../src/assets/users/${photo}`}
+        src={photo}
         alt='guide images'
         className='overview-box__img'
       />

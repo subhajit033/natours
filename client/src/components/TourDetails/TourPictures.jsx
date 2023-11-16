@@ -1,5 +1,3 @@
-
-
 const TourPictures = ({ images }) => {
   return (
     <section className='section-pictures'>
@@ -8,7 +6,7 @@ const TourPictures = ({ images }) => {
           <div key={`image-${i}`} className='picture-box'>
             <img
               className='picture-box__img picture-box__img--1'
-              src={`../../../src/assets/tours/${image}`}
+              src={image}
               alt='tour-images'
             />
           </div>

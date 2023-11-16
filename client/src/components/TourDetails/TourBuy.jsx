@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { logoWhite } from '../../assets/image';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { api_url } from '../../utils/helper';
 import { loadStripe } from '@stripe/stripe-js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,7 +19,7 @@ const TourBuy = ({ images, duration, tourSlug }) => {
         'pk_test_51OBHZtSI41yQ1g5YyAiPqlyx0tDza2PH2MUt0JKIXH5EKoLquT1hxPy8FaD8emO3N2basTfcVf6brHUt5oeTbhxs00CxtqumXH'
       );
       const session = await axios.get(
-        `/api/v1/bookings/checkout-session/${tourSlug}`
+        `${api_url}/api/v1/bookings/checkout-session/${tourSlug}`
       );
 
       await stripe.redirectToCheckout({
@@ -49,12 +50,12 @@ const TourBuy = ({ images, duration, tourSlug }) => {
           <img src={logoWhite} alt='Natours logo' className='' />
         </div>
         <img
-          src={`../../../src/assets/tours/${images[1]}`}
+          src={images[1]}
           alt='tour-images'
           className='cta__img cta__img--1'
         />
         <img
-          src={`../../../src/assets/tours/${images[2]}`}
+          src={images[2]}
           alt='tour-images'
           className='cta__img cta__img--2'
         />
