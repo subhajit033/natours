@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { api_url } from '../../utils/helper';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -35,7 +36,7 @@ const UserDetails = () => {
     try {
       const response = await axios({
         method: 'patch',
-        url: `/api/v1/users/updateMe`,
+        url: `${api_url}/api/v1/users/updateMe`,
         data: formData,
       });
       if (response.data.status === 'success') {
@@ -76,7 +77,7 @@ const UserDetails = () => {
     try {
       const response = await axios({
         method: 'patch',
-        url: '/api/v1/users/updatePassword',
+        url: api_url+'/api/v1/users/updatePassword',
         data: { currentPassword, password, passwordConfirm },
       });
 

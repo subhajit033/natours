@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import TourCard from './TourCard';
 import axios from 'axios';
+import { api_url } from '../../utils/helper';
 import Loader from '../Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTours } from '../../redux/tourData';
@@ -17,7 +18,7 @@ const OverView = () => {
   }, []);
   const getTourData = async () => {
     try {
-      const data = await axios.get('/api/v1/tours');
+      const data = await axios.get(api_url+'/api/v1/tours');
       setTour(data?.data?.data?.data);
       dispatch(addTours(data?.data?.data?.data));
     } catch (err) {

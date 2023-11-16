@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { authentication } from '../../redux/authSlice';
 import { loadUserDetails } from '../../redux/userDetails';
+import { api_url } from '../../utils/helper';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -17,7 +18,7 @@ const Header = () => {
   console.log('isAuth in header ' + isAuthenticated);
   const handleLogOut = async () => {
     try {
-      const response = await axios.get('/api/v1/users/logout');
+      const response = await axios.get(api_url+'/api/v1/users/logout');
       if (response?.data?.status === 'success') {
         navigate('/');
         dispatch(authentication(false));

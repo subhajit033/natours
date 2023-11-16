@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { api_url } from '../../utils/helper';
 import { useNavigate } from 'react-router-dom';
 import { authentication } from '../../redux/authSlice';
 import { loadUserDetails } from '../../redux/userDetails';
@@ -18,7 +19,7 @@ const SignUp = () => {
     try {
       const response = await axios({
         method: 'post',
-        url: '/api/v1/users/signup',
+        url: api_url+'/api/v1/users/signup',
         data: { name, email, password, passwordconfirm: passwordConfirm },
       });
       if (response?.data?.status === 'success') {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-
 import BookingTourCard from './BookingTourCard';
+import { api_url } from '../../utils/helper';
 import axios from 'axios';
 const Booking = () => {
   const [bookedTour, setBookedTour] = useState(null);
@@ -10,7 +10,7 @@ const Booking = () => {
 
   const getBookedTours = async () => {
     try {
-      const res = await axios.get('/api/v1/users/myTours');
+      const res = await axios.get(api_url+'/api/v1/users/myTours');
       console.log(res);
       if (res?.data?.status === 'success') {
         setBookedTour(res?.data?.bookedTours);

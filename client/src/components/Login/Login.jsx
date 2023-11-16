@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { api_url } from '../../utils/helper';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux';
@@ -18,7 +19,7 @@ const Login = () => {
     try {
       const response = await axios({
         method: 'post',
-        url: '/api/v1/users/login',
+        url: api_url+'/api/v1/users/login',
         data: { email, password },
       });
       dispatch(authentication(true));

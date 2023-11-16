@@ -10,6 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './Layout/Layout';
 import axios from 'axios';
+import { api_url } from './utils/helper';
 import { useDispatch } from 'react-redux';
 import { authentication } from './redux/authSlice';
 import { loadUserDetails } from './redux/userDetails';
@@ -21,7 +22,7 @@ const App = () => {
   }, []);
   const isUserLoggedIn = async () => {
     try {
-      const response = await axios.get('/api/v1/users/rememberMe');
+      const response = await axios.get(api_url+'/api/v1/users/rememberMe');
       if (response?.data?.status === 'success') {
         dispatch(authentication(true));
         dispatch(loadUserDetails(response?.data?.data?.user));

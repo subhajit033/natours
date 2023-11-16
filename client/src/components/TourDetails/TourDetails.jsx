@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+import { api_url } from '../../utils/helper';
 import { useParams } from 'react-router-dom';
 import TourName from './TourName';
 import TourDescription from './TourDescription';
@@ -20,7 +20,7 @@ const TourDetails = () => {
   }, []);
   const getSpecificTourDetails = async (tourName) => {
     try {
-      const tourData = await axios.get(`/api/v1/tours/${tourName}`);
+      const tourData = await axios.get(`${api_url}/api/v1/tours/${tourName}`);
       setTourData(tourData?.data?.data?.data);
     } catch (error) {
       console.log(error);
