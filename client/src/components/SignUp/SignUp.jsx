@@ -23,7 +23,7 @@ const SignUp = () => {
       });
       if (response?.data?.status === 'success') {
         dispatch(authentication(true));
-        loadUserDetails(response?.data?.data?.user);
+        dispatch(loadUserDetails(response?.data?.data?.user));
         navigate('/');
         toast.success(`${name.split(' ')[0]} welcome to Natours`, {
           position: 'top-right',
@@ -51,7 +51,7 @@ const SignUp = () => {
         theme: 'light',
       });
       dispatch(authentication(false));
-      loadUserDetails(null);
+      dispatch(loadUserDetails(null));
     }
   };
   return (
